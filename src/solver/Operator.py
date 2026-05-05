@@ -135,12 +135,13 @@ def generate_multi_modify_arc_by_graph_feature(solver, info, problem, df_path_fa
 
 def adaptive_node_expansion(problem_level, base_expand_count=2):
     """根据搜索深度动态调整扩展节点数"""
-    if problem_level < 3:
-        return min(base_expand_count * 2, 6)  # 前期多扩展
+    if problem_level < 2:
+        return min(base_expand_count * 3, 8)  # 前期多扩展
+    elif problem_level < 4:
+        return min(base_expand_count * 2, 6)  # 中前期多扩展
     elif problem_level < 6:
         return base_expand_count  # 中期正常扩展
     else:
-        # 不一定能找到解
         return max(base_expand_count // 2, 1)
 
 
