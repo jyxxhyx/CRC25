@@ -80,9 +80,13 @@ def main():
     parser.add_argument("--routes-dir", default=None, help="directory containing route subdirs (default: data/test/osdpm)")
     args = parser.parse_args()
 
-    routes = args.routes or get_route_names()
-    out_path = os.path.join(PROJECT_DIR, args.output)
     routes_path = args.routes_dir
+    if routes_path:
+        full_routes_dir = os.path.join(PROJECT_DIR, routes_path)
+        routes = args.routes or sorted(os.listdir(full_routes_dir))
+    else:
+        routes = args.routes or get_route_names()
+    out_path = os.path.join(PROJECT_DIR, args.output)
     maps_path = None
     # Auto-detect maps_path for train
     if routes_path and 'train' in routes_path:
