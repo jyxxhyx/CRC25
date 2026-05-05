@@ -8,5 +8,5 @@ paths:
 params:
   heuristic: dijkstra
   heuristic_f: my_weight
-  visual: True
-  time_limit: 290  # 单位：秒
+  visual: False
+  time_limit: 60  # 单位：秒
