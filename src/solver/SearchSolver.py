@@ -157,13 +157,14 @@ class SearchSolver(BaseSolver):
                                                          problem.data_holder)
 
             all_pairs = list(problem.data_holder.foil_fact_fork_merge_nodes.values())
+            # Compute BC once per node expansion (shared across all pairs)
+            org_bc_dict = edge_betweenness_to_target_multigraph(problem.new_graph, self.data_holder.end_node_lc,
+                                                                self.heuristic_f)
             self.timer.check_point("SearchSolver", f"branch from {problem} ({len(all_pairs)} pairs)")
 
             num_of_child = 0
             for pair_idx, info in enumerate(all_pairs):
                 df_path_fact = self.generate_sub_fact(info)
-                org_bc_dict = edge_betweenness_to_target_multigraph(problem.new_graph, self.data_holder.end_node_lc,
-                                                                    self.heuristic_f)
                 modify_result_set = generate_multi_modify_arc_by_graph_feature(self, info, problem, df_path_fact,
                                                                                org_bc_dict)
 
@@ -225,15 +226,7 @@ class SearchSolver(BaseSolver):
         if self.best_leaf_node is not None \
                 and problem.not_feasible() \
                 and problem.graph_error >= self.best_leaf_node.graph_error:
-            # 已经找到了可行解 当前是不可行解  但是发现有graph error大于可行解的,这样是不可能找到比当前可行解好的方案
             return True
-
-        # if problem.not_feasible() \
-        #         and problem.route_error > self.current_best.route_error \
-        #         and problem.graph_error >= self.current_best.graph_error:
-        #     # 当前route error 更差 但是graph error不好于当前最小
-        #     do_pruning = self.calculate_acceptance_probability(problem) <= random.random()
-        #     return do_pruning
 
         return False
 

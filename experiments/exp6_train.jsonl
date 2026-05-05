@@ -1,0 +1,8 @@
+{"route": "osdpm_0_1", "graph_error": 1, "route_error": 0.0, "feasible": true, "time": 9.2, "best_node": "\u30101,1:r:0g:1\u3011#\u30101100#1169#[((1170, 1167), <ArcModifyTag.TO_INFE: 'to_infe'>)]\u3011"}
+{"route": "osdpm_0_2", "graph_error": 1, "route_error": 0.0, "feasible": true, "time": 17.9, "best_node": "\u30101,1:r:0g:1\u3011#\u30107714#6116#[((6207, 6208), <ArcModifyTag.TO_INFE: 'to_infe'>)]\u3011"}
+{"route": "osdpm_0_3", "graph_error": 2, "route_error": 0.496628, "feasible": false, "time": 122.3, "best_node": "\u30101,1:r:0.49662835999999994g:2\u3011#\u30105975#125#[((2952, 2938), <ArcModifyTag.TO_INFE: 'to_infe'>)]\u3011"}
+{"route": "osdpm_0_4", "graph_error": 2, "route_error": 0.0, "feasible": true, "time": 30.3, "best_node": "\u30101,1:r:0g:2\u3011#\u30107805#714#[((713, 714), <ArcModifyTag.TO_INFE: 'to_infe'>)]\u3011"}
+{"route": "osdpm_0_5", "graph_error": 2, "route_error": 0.0, "feasible": true, "time": 21.5, "best_node": "\u30102,1:r:0g:2\u3011#\u30103130#2942#[((2999, 3001), <ArcModifyTag.TO_INFE: 'to_infe'>)]\u3011"}
+{"route": "osdpm_1_1", "graph_error": 3, "route_error": 0.0, "feasible": true, "time": 23.6, "best_node": "\u301012,2:r:0g:3\u3011#\u3010920#926#[((929, 928), <ArcModifyTag.TO_INFE: 'to_infe'>)]\u3011"}
+{"route": "osdpm_1_2", "graph_error": 1, "route_error": 0.0, "feasible": true, "time": 6.8, "best_node": "\u30104,1:r:0g:1\u3011#\u3010693#1231#[((1207, 1571), <ArcModifyTag.TO_INFE: 'to_infe'>)]\u3011"}
+{"route": "osdpm_1_3", "graph_error": 1, "route_error": 0.0, "feasible": true, "time": 4.1, "best_node": "\u30101,1:r:0g:1\u3011#\u301088#1422#[((1413, 1421), <ArcModifyTag.TO_INFE: 'to_infe'>)]\u3011"}
