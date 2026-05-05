@@ -195,7 +195,7 @@ class BaseSolver:
         # 路径类型是不是能改
         df['modify_able_path_type'] = (df["path_type"] == "walk") | (df["path_type"] == "bike")
 
-        df['curb_height_max'].fillna(0, inplace=True)
+        df['curb_height_max'] = df['curb_height_max'].fillna(0)
         # 高度不能改 或者满足条件
         df['curb_height_max_include'] = (df
                                          .apply(lambda x:
@@ -217,8 +217,8 @@ class BaseSolver:
         )
 
         # Define weight (combination of objectives)
-        df['c'] = np.where(pd.isna(df['length']), 0, df['length'])
-        df['d'] = 0
+        df['c'] = np.where(pd.isna(df['length']), 0, df['length']).astype(float)
+        df['d'] = 0.0
 
         df.loc[df['crossing'] == 'Yes', 'c'] = df['c'] * user_model["crossing_weight_factor"]
 
