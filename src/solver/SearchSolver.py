@@ -156,37 +156,38 @@ class SearchSolver(BaseSolver):
             self.analyzer.find_sub_forks_and_merges_node(problem.df_path_foil, problem.df_path_best,
                                                          problem.data_holder)
 
-            info = list(problem.data_holder.foil_fact_fork_merge_nodes.values())[0]
-            df_path_fact = self.generate_sub_fact(info)
-            org_bc_dict = edge_betweenness_to_target_multigraph(problem.new_graph, self.data_holder.end_node_lc,
-                                                                self.heuristic_f)
-            modify_result_set = generate_multi_modify_arc_by_graph_feature(self, info, problem, df_path_fact,
-                                                                           org_bc_dict)
-
-            self.timer.check_point("SearchSolver", f"branch from {problem}")
+            all_pairs = list(problem.data_holder.foil_fact_fork_merge_nodes.values())
+            self.timer.check_point("SearchSolver", f"branch from {problem} ({len(all_pairs)} pairs)")
 
             num_of_child = 0
-            for modify_arc in modify_result_set:
-                # todo 这里不可能不命中，至少起点和终点是一样的
-                sub_problem = ProblemNode(self, info, [modify_arc], problem.map_df, problem.new_graph, problem,
-                                          problem.idx_gen, problem.level + 1)
+            for pair_idx, info in enumerate(all_pairs):
+                df_path_fact = self.generate_sub_fact(info)
+                org_bc_dict = edge_betweenness_to_target_multigraph(problem.new_graph, self.data_holder.end_node_lc,
+                                                                    self.heuristic_f)
+                modify_result_set = generate_multi_modify_arc_by_graph_feature(self, info, problem, df_path_fact,
+                                                                               org_bc_dict)
 
-                if sub_problem in closed_set:
-                    continue
+                for modify_arc in modify_result_set:
+                    # todo 这里不可能不命中，至少起点和终点是一样的
+                    sub_problem = ProblemNode(self, info, [modify_arc], problem.map_df, problem.new_graph, problem,
+                                              problem.idx_gen, problem.level + 1)
 
-                sub_problem.apply_modified_arc()
-                sub_problem.calc_sub_best()
-                sub_problem.calc_error()
+                    if sub_problem in closed_set:
+                        continue
 
-                if self.current_best is None or sub_problem.better_than_other(self.current_best):
-                    self.current_best = sub_problem
+                    sub_problem.apply_modified_arc()
+                    sub_problem.calc_sub_best()
+                    sub_problem.calc_error()
 
-                if self.pruning(sub_problem):
-                    logger.info(f"SearchSolver CUT {sub_problem}")
-                    continue
+                    if self.current_best is None or sub_problem.better_than_other(self.current_best):
+                        self.current_best = sub_problem
 
-                num_of_child = num_of_child + 1
-                open_queue.put(sub_problem)
+                    if self.pruning(sub_problem):
+                        logger.info(f"SearchSolver CUT {sub_problem}")
+                        continue
+
+                    num_of_child = num_of_child + 1
+                    open_queue.put(sub_problem)
 
             self.timer.check_point("SearchSolver", f"solve child num:{num_of_child}")
 
