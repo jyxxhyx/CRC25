@@ -67,52 +67,38 @@ def handle_weight_with_recovery(df, user_model):
 
 
 def create_network_graph(df):
+    """Build directed multigraph from filtered (include=1) rows only.
+    Optimized: skip unused G_con_dir construction."""
     df_sel = df[df['include'] == 1]
-    # Create graph based on max height and min width  # Warning relates to public transport stop nodes
     import warnings
 
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", category=RuntimeWarning)
         G_sel = momepy.gdf_to_nx(df_sel, approach="primal", multigraph=True)
 
-    # Create full graph
-    with warnings.catch_warnings():
-        warnings.filterwarnings("ignore", category=RuntimeWarning)
-        G = momepy.gdf_to_nx(df, approach="primal", multigraph=True)
-    # Get subgraphs
-    S = [G.subgraph(c).copy() for c in sorted(nx.connected_components(G), key=len, reverse=True)]
+    # Get subgraphs for connectivity
     S_sel = [G_sel.subgraph(c).copy() for c in sorted(nx.connected_components(G_sel), key=len, reverse=True)]
-    # Generated networks of areas tend to be fragmented in multiple subgraphs (i.e., the network is not fully connected.)
-    # Therefore, if my_areas is set, we only keep the largest subgraphs to generate routes.
-    # The network of the demo data is fully connected, so we do not need to perform selection of subgraphs.
-
-    G_con = G
 
     if len(S_sel) > 1:
         G_sel_con = nx.compose(S_sel[0], S_sel[1])
     else:
         G_sel_con = G_sel
 
-    # Create dataframes with full, connected and final network
+    # Convert back to GeoDataFrame for oneway processing
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", category=RuntimeWarning)
-        G_df = momepy.nx_to_gdf(G, points=False, lines=True)
-        G_con_df = momepy.nx_to_gdf(G_con, points=False, lines=True)
         G_sel_con_df = momepy.nx_to_gdf(G_sel_con, points=False, lines=True)
 
     # Make bi-directionality of sidewalks (and not of bike paths) explicit
-    G_con_df['oneway'] = np.where(G_con_df['bikepath_id'].isna(), False, True)
     G_sel_con_df['oneway'] = np.where(G_sel_con_df['bikepath_id'].isna(), False, True)
 
-    # Create graphs that take directionality into account
+    # Create directed graph
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", category=RuntimeWarning)
-        G_con_dir = momepy.gdf_to_nx(G_con_df, approach="primal", multigraph=True, directed=True,
-                                     oneway_column="oneway")
         G_sel_con_dir = momepy.gdf_to_nx(G_sel_con_df, approach="primal", multigraph=True, directed=True,
                                          oneway_column="oneway")
 
-    return G_con_dir, G_sel_con_dir
+    return None, G_sel_con_dir
 
 
 def store_op_list(store_path, route_name, route_id, op_list):
