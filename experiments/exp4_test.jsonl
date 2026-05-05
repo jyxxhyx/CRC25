@@ -1,5 +1,0 @@
-{"route": "nwmkt_t_0_1", "graph_error": 4, "route_error": 0.0, "feasible": true, "time": 241.2, "best_node": "\u301045,4:r:0g:4\u3011#\u30102163#3168#[((2163, 2164), <ArcModifyTag.TO_INFE: 'to_infe'>)]\u3011"}
-{"route": "nwmkt_t_0_2", "graph_error": 7, "route_error": 0.0, "feasible": true, "time": 241.6, "best_node": "\u301064,7:r:0g:7\u3011#\u30104596#3166#[((4596, 4599), <ArcModifyTag.TO_INFE: 'to_infe'>)]\u3011"}
-{"route": "nwmkt_t_0_3", "graph_error": 2, "route_error": 0.0, "feasible": true, "time": 15.1, "best_node": "\u30108,2:r:0g:2\u3011#\u30103265#2165#[((2166, 2165), <ArcModifyTag.TO_INFE: 'to_infe'>)]\u3011"}
-{"route": "nwmkt_t_0_4", "graph_error": 4, "route_error": 0.0, "feasible": true, "time": 241.2, "best_node": "\u301029,4:r:0g:4\u3011#\u30103288#4704#[((4261, 4704), <ArcModifyTag.TO_INFE: 'to_infe'>)]\u3011"}
-{"route": "nwmkt_t_0_5", "graph_error": 5, "route_error": 0.0, "feasible": true, "time": 241.3, "best_node": "\u301047,5:r:0g:5\u3011#\u30102909#2911#[((2909, 2911), <ArcModifyTag.TO_INFE: 'to_infe'>)]\u3011"}
